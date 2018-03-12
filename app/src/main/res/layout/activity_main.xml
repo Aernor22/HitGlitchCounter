@@ -6,8 +6,41 @@
     tools:context="club.hellfire.hitglitchcounter.MainActivity">
 
     <LinearLayout
+        android:layout_alignParentTop="true"
+        android:weightSum="3"
+        android:id="@+id/lnTabs"
+        android:orientation="horizontal"
+        android:layout_above="@+id/lnlmain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageButton
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:src="@mipmap/vs_icon"
+            android:id="@+id/btnVs"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+
+        <ImageButton
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:src="@mipmap/plus_icon"
+            android:id="@+id/btnTabSum"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+        <ImageButton
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:id="@+id/btnSpell"
+            android:src="@mipmap/spell_icon"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <LinearLayout
+
         android:layout_above="@+id/lnlResults"
-        android:padding="16dp"
+        android:padding="26dp"
         android:id="@+id/lnlmain"
         android:weightSum="3"
         android:orientation="horizontal"
@@ -29,7 +62,8 @@
             android:layout_height="wrap_content" />
 
         <Button
-            style="@style/Widget.AppCompat.Button.Borderless"
+
+            style="@style/Widget.AppCompat.Button.Colored"
             android:text="Roll!"
             android:id="@+id/btnRoll"
             android:layout_weight="1"
@@ -41,7 +75,7 @@
     <LinearLayout
         android:id="@+id/lnlResults"
         android:layout_centerInParent="true"
-        android:paddingTop="26dp"
+        android:padding="26dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
