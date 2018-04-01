@@ -27,12 +27,10 @@ public class AddRoll extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private EditText edtQt;
-    private TextView lblHitQt;
-    private TextView lblGlitchQt;
+    private TextView lblTotalSum;
 
     private TextView lblPastDie;
-    private TextView lblPastHit;
-    private TextView lblPastGlitch;
+    private TextView lblPastTotal;
 
     private DiceRoller dr;
     private Boolean firstTime;
@@ -83,15 +81,14 @@ public class AddRoll extends Fragment {
         pastQT = 0;
         dr = new DiceRoller();
         firstTime = true;
-        edtQt = (EditText)main.findViewById(R.id.diceqt);
-        lblHitQt = (TextView)main.findViewById(R.id.lblhitsresult);
-        lblGlitchQt = (TextView)main.findViewById(R.id.lblglitchresult);
+        edtQt = (EditText)main.findViewById(R.id.diceqtSum);
+        lblTotalSum = (TextView)main.findViewById(R.id.lblSomaResult);
 
-        lblPastDie = (TextView)main.findViewById(R.id.lblPastQt);
-        lblPastHit = (TextView)main.findViewById(R.id.lblPastHit);
-        lblPastGlitch = (TextView)main.findViewById(R.id.lblPastGlitch);
 
-        Button btnRoll = (Button)main.findViewById(R.id.btnRoll);
+        lblPastDie = (TextView)main.findViewById(R.id.lblPastQtSum);
+        lblPastTotal = (TextView)main.findViewById(R.id.lblPastTotalSum);
+
+        Button btnRoll = (Button)main.findViewById(R.id.btnRollSum);
         btnRoll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -104,15 +101,12 @@ public class AddRoll extends Fragment {
                             if(!firstTime){
                                 String aux = "Dice: "+ String.valueOf(pastQT);
                                 lblPastDie.setText(aux);
-                                aux = "Hit: "+lblHitQt.getText();
-                                lblPastHit.setText(aux);
-                                aux = "Glitch: "+lblGlitchQt.getText();
-                                lblPastGlitch.setText(aux);
+                                aux = "Total: "+lblTotalSum.getText();
+                                lblPastTotal.setText(aux);
                             }
                             pastQT=qt;
                             dr.roll(qt);
-                            lblHitQt.setText(String.valueOf(dr.getHit()));
-                            lblGlitchQt.setText(String.valueOf(dr.getGlitch()));
+                            lblTotalSum.setText(String.valueOf(dr.getTotal()));
                             firstTime = false;
                         }else{
                             throw new Exception("The value should be bigger than 0");
@@ -124,7 +118,7 @@ public class AddRoll extends Fragment {
             }
         });
 
-        return inflater.inflate(R.layout.fragment_add_roll, container, false);
+        return main;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

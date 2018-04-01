@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -80,9 +81,8 @@ public class VSRoll extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        ViewGroup main  = (ViewGroup)inflater.inflate(R.layout.fragment_add_roll,container,false);
+        ViewGroup main  = (ViewGroup)inflater.inflate(R.layout.fragment_vs_roll,container,false);
         pastQT = 0;
-        dr = new DiceRoller();
         firstTime = true;
         edtQt = (EditText)main.findViewById(R.id.diceqt);
         lblHitQt = (TextView)main.findViewById(R.id.lblhitsresult);
@@ -96,12 +96,14 @@ public class VSRoll extends Fragment {
         btnRoll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d("CLICK"," HEYFUCK");
                 try{
                     if(edtQt.getText().toString().isEmpty()){
                         throw new Exception("Please insert a number on Dice quantity.");
                     }else{
                         int qt= Integer.valueOf(edtQt.getText().toString());
                         if(qt>0){
+                            dr = new DiceRoller();
                             if(!firstTime){
                                 String aux = "Dice: "+ String.valueOf(pastQT);
                                 lblPastDie.setText(aux);
@@ -125,7 +127,7 @@ public class VSRoll extends Fragment {
             }
         });
 
-        return inflater.inflate(R.layout.fragment_add_roll, container, false);
+        return main;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
