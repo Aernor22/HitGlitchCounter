@@ -44,6 +44,7 @@ public class VSRoll extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
+
     public VSRoll() {
         // Required empty public constructor
     }

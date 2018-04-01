@@ -2,6 +2,7 @@ package club.hellfire.hitglitchcounter;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.net.Uri;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -16,7 +17,7 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends FragmentActivity implements VSRoll.OnFragmentInteractionListener,AddRoll.OnFragmentInteractionListener,SpellsList.OnFragmentInteractionListener {
 
 
     private ViewPager vPager;
@@ -27,20 +28,20 @@ public class MainActivity extends FragmentActivity {
     private void colorChange(int button){
         switch (button){
             case 0:{
-                btnVS.setBackgroundColor(Color.LTGRAY);
-                btnAdd.setBackgroundColor(getResources().getColor(R.color.googleBack));
+                btnAdd.setBackgroundColor(Color.LTGRAY);
+                btnVS.setBackgroundColor(getResources().getColor(R.color.googleBack));
                 btnSpells.setBackgroundColor(getResources().getColor(R.color.googleBack));
                 break;
             }
             case 1:{
-                btnVS.setBackgroundColor(getResources().getColor(R.color.googleBack));
-                btnAdd.setBackgroundColor(Color.LTGRAY);
+                btnAdd.setBackgroundColor(getResources().getColor(R.color.googleBack));
+                btnVS.setBackgroundColor(Color.LTGRAY);
                 btnSpells.setBackgroundColor(getResources().getColor(R.color.googleBack));
                 break;
             }
             case 2:{
-                btnVS.setBackgroundColor(getResources().getColor(R.color.googleBack));
                 btnAdd.setBackgroundColor(getResources().getColor(R.color.googleBack));
+                btnVS.setBackgroundColor(getResources().getColor(R.color.googleBack));
                 btnSpells.setBackgroundColor(Color.LTGRAY);
                 break;
             }
@@ -61,6 +62,7 @@ public class MainActivity extends FragmentActivity {
         vPager = (ViewPager)findViewById(R.id.pager);
         vPager.setAdapter(tabChanger);
         vPager.setCurrentItem(1);
+        colorChange(1);
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,7 +110,7 @@ public class MainActivity extends FragmentActivity {
                     }
                     default:{
                         btnAdd.setBackgroundColor(getResources().getColor(R.color.googleBack));
-                        btnVS.setBackgroundColor(getResources().getColor(R.color.googleBack));
+                        btnVS.setBackgroundColor(Color.LTGRAY);
                         btnSpells.setBackgroundColor(getResources().getColor(R.color.googleBack));
                     }
                 }
@@ -121,8 +123,10 @@ public class MainActivity extends FragmentActivity {
         };
         vPager.addOnPageChangeListener(pageChangeListener);
 
+    }
 
-
+    @Override
+    public void onFragmentInteraction(Uri uri) {
 
     }
 }
