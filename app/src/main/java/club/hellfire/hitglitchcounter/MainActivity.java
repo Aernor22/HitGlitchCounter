@@ -1,6 +1,7 @@
 package club.hellfire.hitglitchcounter;
 
 import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.net.Uri;
 import android.support.v4.app.FragmentActivity;
@@ -53,6 +54,7 @@ public class MainActivity extends FragmentActivity implements VSRoll.OnFragmentI
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         btnAdd = (ImageButton) findViewById(R.id.btnTabSum) ;
         btnVS = (ImageButton) findViewById(R.id.btnVs);

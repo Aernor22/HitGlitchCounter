@@ -8,10 +8,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 
 /**
@@ -39,6 +43,10 @@ public class VSRoll extends Fragment {
     private Boolean firstTime;
     private int pastQT;
 
+
+    private ArrayAdapter listAdapter;
+    private ArrayList pastRolls;
+    private ListView listRolls;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -88,9 +96,10 @@ public class VSRoll extends Fragment {
         lblHitQt = (TextView)main.findViewById(R.id.lblhitsresult);
         lblGlitchQt = (TextView)main.findViewById(R.id.lblglitchresult);
 
-        lblPastDie = (TextView)main.findViewById(R.id.lblPastQt);
-        lblPastHit = (TextView)main.findViewById(R.id.lblPastHit);
-        lblPastGlitch = (TextView)main.findViewById(R.id.lblPastGlitch);
+        listRolls = (ListView)main.findViewById(R.id.lvVSResults);
+        pastRolls = new ArrayList();
+        listAdapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1,pastRolls);
+        listRolls.setAdapter(listAdapter);
 
         Button btnRoll = (Button)main.findViewById(R.id.btnRoll);
         btnRoll.setOnClickListener(new View.OnClickListener() {
@@ -105,12 +114,9 @@ public class VSRoll extends Fragment {
                         if(qt>0){
                             dr = new DiceRoller();
                             if(!firstTime){
-                                String aux = "Dice: "+ String.valueOf(pastQT);
-                                lblPastDie.setText(aux);
-                                aux = "Hit: "+lblHitQt.getText();
-                                lblPastHit.setText(aux);
-                                aux = "Glitch: "+lblGlitchQt.getText();
-                                lblPastGlitch.setText(aux);
+                                String aux = "Dice: "+ String.valueOf(pastQT)+ "        Hit: "+lblHitQt.getText()+ "     Glitch: "+lblGlitchQt.getText();
+                                pastRolls.add(aux);
+                                listAdapter.notifyDataSetChanged();
                             }
                             pastQT=qt;
                             dr.roll(qt);

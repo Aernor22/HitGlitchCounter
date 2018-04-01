@@ -7,10 +7,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 
 /**
@@ -36,6 +40,9 @@ public class AddRoll extends Fragment {
     private Boolean firstTime;
     private int pastQT;
 
+    private ArrayAdapter listAdapter;
+    private ArrayList pastRolls;
+    private ListView listRolls;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -81,12 +88,13 @@ public class AddRoll extends Fragment {
         pastQT = 0;
         dr = new DiceRoller();
         firstTime = true;
+        listRolls = (ListView)main.findViewById(R.id.lvAddResults);
+        pastRolls = new ArrayList();
+        listAdapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1,pastRolls);
+        listRolls.setAdapter(listAdapter);
+
         edtQt = (EditText)main.findViewById(R.id.diceqtSum);
         lblTotalSum = (TextView)main.findViewById(R.id.lblSomaResult);
-
-
-        lblPastDie = (TextView)main.findViewById(R.id.lblPastQtSum);
-        lblPastTotal = (TextView)main.findViewById(R.id.lblPastTotalSum);
 
         Button btnRoll = (Button)main.findViewById(R.id.btnRollSum);
         btnRoll.setOnClickListener(new View.OnClickListener() {
@@ -99,10 +107,9 @@ public class AddRoll extends Fragment {
                         int qt= Integer.valueOf(edtQt.getText().toString());
                         if(qt>0){
                             if(!firstTime){
-                                String aux = "Dice: "+ String.valueOf(pastQT);
-                                lblPastDie.setText(aux);
-                                aux = "Total: "+lblTotalSum.getText();
-                                lblPastTotal.setText(aux);
+                                String aux = "Dice: "+ String.valueOf(pastQT)+"     Total: "+lblTotalSum.getText();
+                                pastRolls.add(aux);
+                                listAdapter.notifyDataSetChanged();
                             }
                             pastQT=qt;
                             dr.roll(qt);
