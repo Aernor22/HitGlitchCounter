@@ -4,9 +4,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -19,16 +23,18 @@ public class SpellChooser extends AppCompatActivity {
     private ListView lvAllSpells;
     private ArrayAdapter adapterSpells;
     private ArrayList listAllSpells;
-
+    private TextView edtSearch;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_spell_chooser);
-
+        edtSearch = (TextView)findViewById(R.id.edtSearch);
         lvAllSpells = (ListView)findViewById(R.id.lvAllSpells);
         listAllSpells = new ArrayList<String>();
-        adapterSpells = new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_list_item_1,listAllSpells);
+        adapterSpells = new ArrayAdapter<String>(getBaseContext(),android.R.layout.simple_list_item_1,listAllSpells);
         lvAllSpells.setAdapter(adapterSpells);
+
+
 
         try{
             JSONObject parent = new JSONObject(loadJSONFromAsset());
@@ -38,8 +44,24 @@ public class SpellChooser extends AppCompatActivity {
                 listAllSpells.add(object.getString("name"));
                 Log.d("Name",String.valueOf(listAllSpells.get(i)));
             }
-
             adapterSpells.notifyDataSetChanged();
+
+            edtSearch.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    adapterSpells.getFilter().filter(charSequence);
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                }
+            });
         }catch (Exception e){
             Log.d("VISH",e.getMessage());
         }
