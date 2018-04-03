@@ -1,6 +1,8 @@
 package club.hellfire.hitglitchcounter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import org.json.JSONArray;
@@ -16,7 +19,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -42,7 +44,7 @@ public class SpellsList extends android.support.v4.app.Fragment {
     private ArrayAdapter spellAdapter;
 
     private OnFragmentInteractionListener mListener;
-
+    private Button btnAddSpell;
     public SpellsList() {
         // Required empty public constructor
     }
@@ -91,10 +93,32 @@ public class SpellsList extends android.support.v4.app.Fragment {
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_OK) {
+                spellAdapter.notifyDataSetChanged();
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //Write your code if there's no result
+            }
+        }
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         ViewGroup main  = (ViewGroup)inflater.inflate(R.layout.fragment_spells_list,container,false);
+
+        btnAddSpell = (Button)main.findViewById(R.id.btnAdd);
+        btnAddSpell.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getContext(),SpellChooser.class);
+                startActivityForResult(i,1);
+            }
+        });
 
         lvSpells = (ListView)main.findViewById(R.id.lvSpells);
         spellnames=new ArrayList();
@@ -107,9 +131,8 @@ public class SpellsList extends android.support.v4.app.Fragment {
                 JSONObject object = array.getJSONObject(i);
 
                 spellnames.add(object.getString("name"));
-                spellAdapter.notifyDataSetChanged();
             }
-
+            spellAdapter.notifyDataSetChanged();
 
         }catch (Exception e){
             Log.d("VISH",e.getMessage());

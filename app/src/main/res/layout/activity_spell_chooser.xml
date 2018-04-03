@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SpellChooser">
+    <TextView
+        android:layout_alignBaseline="@+id/edtSearch"
+        android:text="Search:"
+        android:id="@+id/lblSearch"
+        android:layout_alignParentTop="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <EditText
+        android:layout_toRightOf="@+id/lblSearch"
+        android:layout_alignParentTop="true"
+        android:id="@+id/edtSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/lblSearch" />
+    <ListView
+        android:fadeScrollbars="false"
+        android:layout_below="@+id/edtSearch"
+        android:id="@+id/lvAllSpells"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</RelativeLayout>
