@@ -1,0 +1,15 @@
+{
+  "spells": [
+    {
+      "id": "c78d91cc-fa02-48c3-a243-28823a2038ef",
+      "name": "Acid Stream",
+      "page": "283",
+      "source": "SR5",
+      "category": "Combat",
+      "damage": "P",
+      "descriptor": "Indirect, Elemental",
+      "duration": "I",
+      "dv": "F-3",
+      "range": "LOS",
+      "type": "P"
+    }]}

@@ -3,7 +3,6 @@ package club.hellfire.hitglitchcounter;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,23 +17,20 @@ import java.util.ArrayList;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * A simple {@link android.support.v4.app.Fragment} subclass.
  * Activities that contain this fragment must implement the
  * {@link AddRoll.OnFragmentInteractionListener} interface
  * to handle interaction events.
  * Use the {@link AddRoll#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AddRoll extends Fragment {
+public class AddRoll extends android.support.v4.app.Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private EditText edtQt;
     private TextView lblTotalSum;
-
-    private TextView lblPastDie;
-    private TextView lblPastTotal;
 
     private DiceRoller dr;
     private Boolean firstTime;
