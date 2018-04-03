@@ -4,9 +4,20 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -26,6 +37,10 @@ public class SpellsList extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private ListView lvSpells;
+    private ArrayList spellnames;
+    private ArrayAdapter spellAdapter;
 
     private OnFragmentInteractionListener mListener;
 
@@ -51,6 +66,22 @@ public class SpellsList extends Fragment {
         return fragment;
     }
 
+    public String loadJSONFromAsset() {
+        String json = null;
+        try {
+            InputStream is = getActivity().getAssets().open("spellsJSON");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            json = new String(buffer, "UTF-8");
+        } catch (IOException ex) {
+            Log.d("VISHLOAD",ex.getMessage());
+            return null;
+        }
+        return json;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +95,31 @@ public class SpellsList extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_spells_list, container, false);
+        ViewGroup main  = (ViewGroup)inflater.inflate(R.layout.fragment_spells_list,container,false);
+
+        lvSpells = (ListView)main.findViewById(R.id.lvSpells);
+        spellnames=new ArrayList();
+        spellAdapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1,spellnames);
+        lvSpells.setAdapter(spellAdapter);
+        try{
+            JSONObject parent = new JSONObject(loadJSONFromAsset());
+            JSONArray array = parent.getJSONArray("spells");
+            for(int i =0;i<array.length();i++){
+                JSONObject object = array.getJSONObject(i);
+
+                spellnames.add(object.getString("name"));
+                spellAdapter.notifyDataSetChanged();
+            }
+
+
+        }catch (Exception e){
+            Log.d("VISH",e.getMessage());
+        }
+
+
+
+
+        return main;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
