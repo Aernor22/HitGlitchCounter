@@ -1,11 +1,16 @@
 package club.hellfire.hitglitchcounter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -36,7 +41,7 @@ public class AddRoll extends android.support.v4.app.Fragment {
     private Boolean firstTime;
     private int pastQT;
 
-    private ArrayAdapter listAdapter;
+    private CustomListAdapter listAdapterCustom;
     private ArrayList pastRolls;
     private ListView listRolls;
     // TODO: Rename and change types of parameters
@@ -77,6 +82,19 @@ public class AddRoll extends android.support.v4.app.Fragment {
 
     }
 
+    public static void hideSoftKeyboard(Activity activity) {
+        InputMethodManager inputMethodManager =
+                (InputMethodManager) activity.getSystemService(
+                        Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(
+                activity.getCurrentFocus().getWindowToken(), 0);
+    }
+
+    public void hideKeyboard(View view) {
+        InputMethodManager inputMethodManager =(InputMethodManager)getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -84,18 +102,34 @@ public class AddRoll extends android.support.v4.app.Fragment {
         pastQT = 0;
         dr = new DiceRoller();
         firstTime = true;
+
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = getContext().getTheme();
+        theme.resolveAttribute(R.attr.colorAccent, typedValue, true);
+        @ColorInt int color = typedValue.data;
+        String hexColor = String.format("#%06X", (0xFFFFFF & color));
+
         listRolls = (ListView)main.findViewById(R.id.lvAddResults);
         pastRolls = new ArrayList();
-        listAdapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1,pastRolls);
-        listRolls.setAdapter(listAdapter);
+        listAdapterCustom = new CustomListAdapter(getContext(),android.R.layout.simple_list_item_1,pastRolls,hexColor);
+        listRolls.setAdapter(listAdapterCustom);
 
         edtQt = (EditText)main.findViewById(R.id.diceqtSum);
+        edtQt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    hideKeyboard(v);
+                }
+            }
+        });
         lblTotalSum = (TextView)main.findViewById(R.id.lblSomaResult);
 
         Button btnRoll = (Button)main.findViewById(R.id.btnRollSum);
         btnRoll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hideSoftKeyboard(getActivity());
                 try{
                     if(edtQt.getText().toString().isEmpty()){
                         throw new Exception("Please insert a number on Dice quantity.");
@@ -105,7 +139,7 @@ public class AddRoll extends android.support.v4.app.Fragment {
                             if(!firstTime){
                                 String aux = "Dice: "+ String.valueOf(pastQT)+"     Total: "+lblTotalSum.getText();
                                 pastRolls.add(aux);
-                                listAdapter.notifyDataSetChanged();
+                                listAdapterCustom.notifyDataSetChanged();
                             }
                             pastQT=qt;
                             dr.roll(qt);

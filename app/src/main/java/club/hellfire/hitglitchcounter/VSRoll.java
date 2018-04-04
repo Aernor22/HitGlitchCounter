@@ -1,21 +1,33 @@
 package club.hellfire.hitglitchcounter;
 
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 
 /**
@@ -35,9 +47,7 @@ public class VSRoll extends android.support.v4.app.Fragment {
     private TextView lblHitQt;
     private TextView lblGlitchQt;
 
-    private TextView lblPastDie;
-    private TextView lblPastHit;
-    private TextView lblPastGlitch;
+    private ViewGroup main;
 
     private DiceRoller dr;
     private Boolean firstTime;
@@ -45,6 +55,7 @@ public class VSRoll extends android.support.v4.app.Fragment {
 
 
     private ArrayAdapter listAdapter;
+    private CustomListAdapter listAdapterCustom;
     private ArrayList pastRolls;
     private ListView listRolls;
     // TODO: Rename and change types of parameters
@@ -86,26 +97,63 @@ public class VSRoll extends android.support.v4.app.Fragment {
 
     }
 
+    public static void hideSoftKeyboard(Activity activity) {
+        InputMethodManager inputMethodManager =
+                (InputMethodManager) activity.getSystemService(
+                        Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(
+                activity.getCurrentFocus().getWindowToken(), 0);
+    }
+
+    public void hideKeyboard(View view) {
+        InputMethodManager inputMethodManager =(InputMethodManager)getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        ViewGroup main  = (ViewGroup)inflater.inflate(R.layout.fragment_vs_roll,container,false);
+        main  = (ViewGroup)inflater.inflate(R.layout.fragment_vs_roll,container,false);
         pastQT = 0;
         firstTime = true;
         edtQt = (EditText)main.findViewById(R.id.diceqt);
+        edtQt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    hideKeyboard(v);
+                }
+            }
+        });
         lblHitQt = (TextView)main.findViewById(R.id.lblhitsresult);
         lblGlitchQt = (TextView)main.findViewById(R.id.lblglitchresult);
 
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = getContext().getTheme();
+        theme.resolveAttribute(R.attr.colorAccent, typedValue, true);
+        @ColorInt int color = typedValue.data;
+        String hexColor = String.format("#%06X", (0xFFFFFF & color));
+        Log.d("CLICK",hexColor);
+
         listRolls = (ListView)main.findViewById(R.id.lvVSResults);
         pastRolls = new ArrayList();
-        listAdapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1,pastRolls);
-        listRolls.setAdapter(listAdapter);
+        listAdapterCustom = new CustomListAdapter(getContext(),android.R.layout.simple_list_item_1,pastRolls,hexColor);
+        listRolls.setAdapter(listAdapterCustom);
+
+        listRolls.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent i = new Intent(getContext(),ViewRolls.class);
+                startActivity(i);
+            }
+        });
 
         Button btnRoll = (Button)main.findViewById(R.id.btnRoll);
         btnRoll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("CLICK"," HEYFUCK");
+                hideSoftKeyboard(getActivity());
+
                 try{
                     if(edtQt.getText().toString().isEmpty()){
                         throw new Exception("Please insert a number on Dice quantity.");
@@ -113,16 +161,13 @@ public class VSRoll extends android.support.v4.app.Fragment {
                         int qt= Integer.valueOf(edtQt.getText().toString());
                         if(qt>0){
                             dr = new DiceRoller();
-                            if(!firstTime){
-                                String aux = "Dice: "+ String.valueOf(pastQT)+ "        Hit: "+lblHitQt.getText()+ "     Glitch: "+lblGlitchQt.getText();
-                                pastRolls.add(aux);
-                                listAdapter.notifyDataSetChanged();
-                            }
                             pastQT=qt;
                             dr.roll(qt);
                             lblHitQt.setText(String.valueOf(dr.getHit()));
                             lblGlitchQt.setText(String.valueOf(dr.getGlitch()));
-                            firstTime = false;
+                            String aux = "Dice: "+ String.valueOf(pastQT)+ "        Hit: "+lblHitQt.getText()+ "     Glitch: "+lblGlitchQt.getText();
+                            pastRolls.add(aux);
+                            listAdapterCustom.notifyDataSetChanged();
                         }else{
                             throw new Exception("The value should be bigger than 0");
                         }

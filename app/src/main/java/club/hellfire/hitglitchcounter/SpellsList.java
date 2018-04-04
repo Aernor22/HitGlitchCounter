@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -25,6 +27,7 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -193,16 +196,47 @@ public class SpellsList extends android.support.v4.app.Fragment {
         inflater.inflate(R.menu.spells_options, menu);
     }
 
+    private void writeToFile(JSONObject obj){
+        String path = Environment.getExternalStorageDirectory()+ File.separator +"shadowrunCounter"+ File.separator;
+        File dir = new File(path);
+        if(!dir.exists()) {
+            dir.mkdirs();
+        }
+        File file = new File(path,"choosenSpells.JSON");
+        try{
+            FileOutputStream fop = new FileOutputStream(file);
+            fop.write(obj.toString().getBytes());
+            fop.close();
+        }catch (Exception e){
+
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private void remove(int pos){
+        ArrayList choosenList = new ArrayList();
+        try{
+            JSONObject selected = new JSONObject(readFromFile());
+            JSONArray choosenArray = selected.getJSONArray("spells");
+            choosenArray.remove(pos);
+            //Log.d("Without",choosenArray.toString());
+            writeToFile(selected);
+            updateAdapter();
+        }catch (Exception e){
+            Log.d("VISH",e.getMessage());
+        }
+
+    }
+
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
 
         switch (item.getItemId()) {
             case R.id.deleteSpell:
-                                //Intent i = new Intent(this,EditAuras.class);
-                //i.putExtra("id",String.valueOf(info.id));
-                //startActivityForResult(i,1);
-
+                remove(info.position);
                 return true;
             default:
                 return super.onContextItemSelected(item);

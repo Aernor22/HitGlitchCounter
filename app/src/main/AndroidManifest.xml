@@ -19,6 +19,7 @@
         <activity android:name=".SpellChooser" />
         <activity android:name=".AddSpell" android:theme="@style/AppTheme.CustomTheme"/>
         <activity android:name=".ViewSpell" android:theme="@style/AppTheme.CustomTheme"/>
+        <activity android:name=".ViewRolls" android:theme="@style/AppTheme.CustomTheme"/>
     </application>
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />

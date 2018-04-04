@@ -4,6 +4,8 @@
     android:layout_height="match_parent"
     android:focusable="true"
     android:focusableInTouchMode="true"
+    android:clickable="true"
+    android:id="@+id/rlMainAdd"
     tools:context="club.hellfire.hitglitchcounter.VSRoll">
 
 
