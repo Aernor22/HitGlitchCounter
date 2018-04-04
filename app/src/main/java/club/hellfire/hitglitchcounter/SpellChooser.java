@@ -1,6 +1,7 @@
 package club.hellfire.hitglitchcounter;
 
 import android.app.Activity;
+import android.content.ClipData;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,6 +21,19 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+
+class Item{
+    private String name;
+    public void setName(String name){
+        this.name = name;
+    }
+    public String getName(){
+        return name;
+    }
+    public String toString(){
+        return name;
+    }
+}
 
 public class SpellChooser extends AppCompatActivity {
     private ListView lvAllSpells;
@@ -68,6 +82,7 @@ public class SpellChooser extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     Intent intent = new Intent(getBaseContext(),AddSpell.class);
+                    intent.putExtra("name",(String) lvAllSpells.getAdapter().getItem(i));
                     startActivity(intent);
                 }
             });
