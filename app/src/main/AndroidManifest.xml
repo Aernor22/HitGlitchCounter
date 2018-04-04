@@ -16,7 +16,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SpellChooser"></activity>
+        <activity android:name=".SpellChooser" />
+        <activity android:name=".AddSpell" android:theme="@style/AppTheme.CustomTheme"/>
     </application>
 
 </manifest>

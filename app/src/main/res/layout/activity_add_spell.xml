@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddSpell">
+
+    <TextView
+        android:padding="6dp"
+        android:id="@+id/lblSpellName"
+        android:text="Name:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:text="-"
+        android:layout_toEndOf="@+id/lblSpellName"
+        android:layout_alignStart="@+id/tvDescription"
+        android:layout_alignLeft="@+id/tvDescription"
+        android:padding="6dp"
+        android:id="@+id/tvName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/lblSpellName" />
+
+    <TextView
+        android:padding="6dp"
+        android:layout_below="@+id/lblSpellName"
+        android:id="@+id/lblSpellPage"
+        android:text="Page:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_alignStart="@+id/tvDescription"
+        android:layout_alignLeft="@+id/tvDescription"
+        android:id="@+id/tvPage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lblSpellName"
+        android:layout_toEndOf="@+id/lblSpellPage"
+        android:padding="6dp"
+        android:text="-"
+        android:layout_toRightOf="@+id/lblSpellPage" />
+
+    <TextView
+        android:padding="6dp"
+        android:layout_below="@+id/lblSpellPage"
+        android:id="@+id/lblSpellCategoria"
+        android:text="Category:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_alignStart="@+id/tvDescription"
+        android:layout_alignLeft="@+id/tvDescription"
+        android:id="@+id/tvCategoria"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lblSpellPage"
+        android:layout_toEndOf="@+id/lblSpellCategoria"
+        android:padding="6dp"
+        android:text="-"
+        android:layout_toRightOf="@+id/lblSpellCategoria" />
+
+    <TextView
+        android:padding="6dp"
+        android:layout_below="@+id/lblSpellCategoria"
+        android:id="@+id/lblSpellDamage"
+        android:text="Damage:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_alignStart="@+id/tvDescription"
+        android:layout_alignLeft="@+id/tvDescription"
+        android:id="@+id/tvDamage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lblSpellCategoria"
+        android:layout_toEndOf="@+id/lblSpellDamage"
+        android:padding="6dp"
+        android:text="-"
+        android:layout_toRightOf="@+id/lblSpellDamage" />
+
+    <TextView
+        android:padding="6dp"
+        android:layout_below="@+id/lblSpellDamage"
+        android:id="@+id/lblSpellDescription"
+        android:text="Description:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tvDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lblSpellDamage"
+        android:layout_toEndOf="@+id/lblSpellDescription"
+        android:padding="6dp"
+        android:text="-"
+        android:layout_toRightOf="@+id/lblSpellDescription" />
+
+    <TextView
+        android:padding="6dp"
+        android:layout_below="@+id/lblSpellDescription"
+        android:id="@+id/lblSpellDuration"
+        android:text="Duration:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_alignStart="@+id/tvDescription"
+        android:layout_alignLeft="@+id/tvDescription"
+        android:id="@+id/tvDuration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lblSpellDescription"
+        android:layout_toEndOf="@+id/lblSpellDuration"
+        android:padding="6dp"
+        android:text="-"
+        android:layout_toRightOf="@+id/lblSpellDuration" />
+
+    <TextView
+        android:padding="6dp"
+        android:layout_below="@+id/lblSpellDuration"
+        android:id="@+id/lblSpellDV"
+        android:text="DV:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_alignStart="@+id/tvDescription"
+        android:layout_alignLeft="@+id/tvDescription"
+        android:id="@+id/tvDV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/lblSpellDV"
+        android:layout_below="@+id/lblSpellDuration"
+        android:padding="6dp"
+        android:text="-"
+        android:layout_toRightOf="@+id/lblSpellDV" />
+
+    <TextView
+        android:padding="6dp"
+        android:layout_below="@+id/lblSpellDV"
+        android:id="@+id/lblSpellRange"
+        android:text="Range:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_alignStart="@+id/tvDescription"
+        android:layout_alignLeft="@+id/tvDescription"
+        android:id="@+id/tvRange"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/lblSpellRange"
+        android:layout_below="@+id/lblSpellDV"
+        android:padding="6dp"
+        android:text="-"
+        android:layout_toRightOf="@+id/lblSpellRange" />
+
+    <TextView
+        android:padding="6dp"
+        android:layout_below="@+id/lblSpellRange"
+        android:id="@+id/lblSpellType"
+        android:layout_above="@+id/btnAdd"
+        android:text="Type:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_alignStart="@+id/tvDescription"
+        android:layout_alignLeft="@+id/tvDescription"
+        android:id="@+id/tvType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lblSpellRange"
+        android:layout_toEndOf="@+id/lblSpellType"
+        android:padding="6dp"
+        android:text="-"
+        android:layout_toRightOf="@+id/lblSpellType" />
+
+    <Button
+        android:layout_alignParentBottom="true"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:text="Add"
+        android:id="@+id/btnAddSpell"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

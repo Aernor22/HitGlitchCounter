@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -42,7 +44,6 @@ public class SpellChooser extends AppCompatActivity {
             for(int i =0;i<array.length();i++){
                 JSONObject object = array.getJSONObject(i);
                 listAllSpells.add(object.getString("name"));
-                Log.d("Name",String.valueOf(listAllSpells.get(i)));
             }
             adapterSpells.notifyDataSetChanged();
 
@@ -62,6 +63,15 @@ public class SpellChooser extends AppCompatActivity {
 
                 }
             });
+
+            lvAllSpells.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    Intent intent = new Intent(getBaseContext(),AddSpell.class);
+                    startActivity(intent);
+                }
+            });
+
         }catch (Exception e){
             Log.d("VISH",e.getMessage());
         }
