@@ -1,8 +1,8 @@
 package club.hellfire.hitglitchcounter;
 
+import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -17,16 +17,14 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-public class AddSpell extends AppCompatActivity {
+public class ViewSpell extends AppCompatActivity {
 
     private TextView tvName;
     private TextView tvPage;
@@ -104,6 +102,7 @@ public class AddSpell extends AppCompatActivity {
         choosenList = new ArrayList();
 
         btnAdd = (Button)findViewById(R.id.btnAddSpell);
+        btnAdd.setVisibility(View.GONE);
         tvName = (TextView)findViewById(R.id.tvName);
         tvPage = (TextView)findViewById(R.id.tvPage);
         tvCategory = (TextView)findViewById(R.id.tvCategoria);
@@ -149,7 +148,7 @@ public class AddSpell extends AppCompatActivity {
             btnAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    try {
+                    /*try {
                         if(!choosenList.contains(object.getString("name"))){
                             choosenArray.put(object);
                             writeToFile(selected);
@@ -160,7 +159,7 @@ public class AddSpell extends AppCompatActivity {
                         }
                     } catch (JSONException e) {
                         Log.d("VISH",e.getMessage());
-                    }
+                    }*/
                 }
             });
         }catch (Exception e){

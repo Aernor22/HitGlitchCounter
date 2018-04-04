@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 
 public class TabChanger extends FragmentStatePagerAdapter {
     private AddRoll addRoll = new AddRoll();
@@ -66,4 +67,5 @@ public class TabChanger extends FragmentStatePagerAdapter {
         }
         return null;
     }
+
 }

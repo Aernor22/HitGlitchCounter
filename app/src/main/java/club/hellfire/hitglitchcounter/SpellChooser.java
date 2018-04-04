@@ -22,19 +22,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
-class Item{
-    private String name;
-    public void setName(String name){
-        this.name = name;
-    }
-    public String getName(){
-        return name;
-    }
-    public String toString(){
-        return name;
-    }
-}
-
 public class SpellChooser extends AppCompatActivity {
     private ListView lvAllSpells;
     private ArrayAdapter adapterSpells;
@@ -109,7 +96,7 @@ public class SpellChooser extends AppCompatActivity {
     }
     @Override
     public void onBackPressed(){
-        Intent returnResult = new Intent();
+        Intent returnResult = new Intent(getBaseContext(),AddRoll.class);
         returnResult.putExtra("result",1);
         setResult(Activity.RESULT_OK,returnResult);
         finish();
