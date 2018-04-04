@@ -7,13 +7,17 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -173,10 +177,36 @@ public class SpellsList extends android.support.v4.app.Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent spell = new Intent(getContext(),ViewSpell.class);
                 spell.putExtra("name",(String) lvSpells.getAdapter().getItem(position));
-                startActivityForResult(spell,4);
+                startActivity(spell);
             }
         });
+
+        registerForContextMenu(lvSpells);
         return main;
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,
+                                    ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getActivity().getMenuInflater();
+        inflater.inflate(R.menu.spells_options, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+
+        switch (item.getItemId()) {
+            case R.id.deleteSpell:
+                                //Intent i = new Intent(this,EditAuras.class);
+                //i.putExtra("id",String.valueOf(info.id));
+                //startActivityForResult(i,1);
+
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event

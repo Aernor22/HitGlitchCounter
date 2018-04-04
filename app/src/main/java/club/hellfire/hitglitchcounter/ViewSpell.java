@@ -145,23 +145,6 @@ public class ViewSpell extends AppCompatActivity {
             tvRange.setText(object.getString("range"));
             tvType.setText(object.getString("type"));
 
-            btnAdd.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    /*try {
-                        if(!choosenList.contains(object.getString("name"))){
-                            choosenArray.put(object);
-                            writeToFile(selected);
-                            finish();
-                            Toast.makeText(getBaseContext(),"Spell added to your list!",Toast.LENGTH_LONG).show();
-                        }else{
-                            Toast.makeText(getBaseContext(),"Spell is already in your list!",Toast.LENGTH_LONG).show();
-                        }
-                    } catch (JSONException e) {
-                        Log.d("VISH",e.getMessage());
-                    }*/
-                }
-            });
         }catch (Exception e){
             Log.d("VISH",e.getMessage());
         }
