@@ -8,12 +8,15 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 public class AddSpell extends AppCompatActivity {
 
@@ -30,12 +33,13 @@ public class AddSpell extends AppCompatActivity {
     private Button btnAdd;
 
     private int position;
+    private Boolean match;
+    private ArrayList choosenList;
 
-
-    public String loadJSONFromAsset() {
+    public String loadJSONFromAsset(String fileName) {
         String json = null;
         try {
-            InputStream is = this.getAssets().open("spellsJSON");
+            InputStream is = this.getAssets().open(fileName);
             int size = is.available();
             byte[] buffer = new byte[size];
             is.read(buffer);
@@ -63,6 +67,9 @@ public class AddSpell extends AppCompatActivity {
         wlp.dimAmount = (float) 0.6;
         getWindow().setAttributes(wlp);
 
+        match = false;
+        choosenList = new ArrayList();
+
         btnAdd = (Button)findViewById(R.id.btnAddSpell);
         tvName = (TextView)findViewById(R.id.tvName);
         tvPage = (TextView)findViewById(R.id.tvPage);
@@ -78,7 +85,7 @@ public class AddSpell extends AppCompatActivity {
 
         try {
 
-            JSONObject parent = new JSONObject(loadJSONFromAsset());
+            JSONObject parent = new JSONObject(loadJSONFromAsset("spellsJSON"));
             JSONArray array = parent.getJSONArray("spells");
             for(int i =0;i<array.length();i++){
                 JSONObject aux = array.getJSONObject(i);
@@ -87,7 +94,14 @@ public class AddSpell extends AppCompatActivity {
                 }
             }
 
-            JSONObject object = array.getJSONObject(position);
+            JSONObject selected = new JSONObject(loadJSONFromAsset("choosenSpells"));
+            final JSONArray choosenArray = selected.getJSONArray("spells");
+            for(int j = 0;j<choosenArray.length();j++){
+                JSONObject obj = choosenArray.getJSONObject(j);
+                choosenList.add(obj.getString("name"));
+            }
+
+            final JSONObject object = array.getJSONObject(position);
             tvName.setText(object.getString("name"));
             tvPage.setText(object.getString("page"));
             tvCategory.setText(object.getString("category"));
@@ -101,7 +115,17 @@ public class AddSpell extends AppCompatActivity {
             btnAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    try {
+                        if(!choosenList.contains(object.getString("name"))){
+                            choosenArray.put(object);
 
+                            Toast.makeText(getBaseContext(),"Spell added to your list!",Toast.LENGTH_LONG).show();
+                        }else{
+                            Toast.makeText(getBaseContext(),"Spell is already in your list!",Toast.LENGTH_LONG).show();
+                        }
+                    } catch (JSONException e) {
+                        Log.d("VISH",e.getMessage());
+                    }
                 }
             });
         }catch (Exception e){
