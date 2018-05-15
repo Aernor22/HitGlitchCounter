@@ -185,6 +185,18 @@ public class MainActivity extends FragmentActivity implements VSRoll.OnFragmentI
     }
 
     @Override
+    public void onBackPressed() {
+        if (vPager.getCurrentItem() == 1) {
+            // If the user is currently looking at the first step, allow the system to handle the
+            // Back button. This calls finish() on this activity and pops the back stack.
+            super.onBackPressed();
+        } else {
+            // Otherwise, select the previous step.
+            vPager.setCurrentItem(1);
+        }
+    }
+
+    @Override
     public void onFragmentInteraction(Uri uri) {
 
     }

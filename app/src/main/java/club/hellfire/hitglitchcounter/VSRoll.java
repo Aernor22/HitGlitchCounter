@@ -54,9 +54,9 @@ public class VSRoll extends android.support.v4.app.Fragment {
     private int pastQT;
 
 
-    private ArrayAdapter listAdapter;
     private CustomListAdapter listAdapterCustom;
     private ArrayList pastRolls;
+    private ArrayList pastRollsIndividual;
     private ListView listRolls;
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -137,6 +137,7 @@ public class VSRoll extends android.support.v4.app.Fragment {
 
         listRolls = (ListView)main.findViewById(R.id.lvVSResults);
         pastRolls = new ArrayList();
+        pastRollsIndividual = new ArrayList();
         listAdapterCustom = new CustomListAdapter(getContext(),android.R.layout.simple_list_item_1,pastRolls,hexColor);
         listRolls.setAdapter(listAdapterCustom);
 
@@ -144,6 +145,7 @@ public class VSRoll extends android.support.v4.app.Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent i = new Intent(getContext(),ViewRolls.class);
+                i.putExtra("rolls",pastRollsIndividual.get(pastRollsIndividual.size()-position-1).toString());
                 startActivity(i);
             }
         });
@@ -167,6 +169,7 @@ public class VSRoll extends android.support.v4.app.Fragment {
                             lblGlitchQt.setText(String.valueOf(dr.getGlitch()));
                             String aux = "Dice: "+ String.valueOf(pastQT)+ "        Hit: "+lblHitQt.getText()+ "     Glitch: "+lblGlitchQt.getText();
                             pastRolls.add(aux);
+                            pastRollsIndividual.add(dr.getRolls());
                             listAdapterCustom.notifyDataSetChanged();
                         }else{
                             throw new Exception("The value should be bigger than 0");

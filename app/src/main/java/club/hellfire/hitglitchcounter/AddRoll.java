@@ -2,6 +2,7 @@ package club.hellfire.hitglitchcounter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,11 +40,11 @@ public class AddRoll extends android.support.v4.app.Fragment {
     private TextView lblTotalSum;
 
     private DiceRoller dr;
-    private Boolean firstTime;
     private int pastQT;
 
     private CustomListAdapter listAdapterCustom;
     private ArrayList pastRolls;
+    private ArrayList pastRollsIndividual;
     private ListView listRolls;
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -101,7 +103,6 @@ public class AddRoll extends android.support.v4.app.Fragment {
         ViewGroup main  = (ViewGroup)inflater.inflate(R.layout.fragment_add_roll,container,false);
         pastQT = 0;
         dr = new DiceRoller();
-        firstTime = true;
 
         TypedValue typedValue = new TypedValue();
         Resources.Theme theme = getContext().getTheme();
@@ -111,6 +112,7 @@ public class AddRoll extends android.support.v4.app.Fragment {
 
         listRolls = (ListView)main.findViewById(R.id.lvAddResults);
         pastRolls = new ArrayList();
+        pastRollsIndividual = new ArrayList();
         listAdapterCustom = new CustomListAdapter(getContext(),android.R.layout.simple_list_item_1,pastRolls,hexColor);
         listRolls.setAdapter(listAdapterCustom);
 
@@ -125,6 +127,15 @@ public class AddRoll extends android.support.v4.app.Fragment {
         });
         lblTotalSum = (TextView)main.findViewById(R.id.lblSomaResult);
 
+        listRolls.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent i = new Intent(getContext(),ViewRolls.class);
+                i.putExtra("rolls",pastRollsIndividual.get(pastRollsIndividual.size()-position-1).toString());
+                startActivity(i);
+            }
+        });
+
         Button btnRoll = (Button)main.findViewById(R.id.btnRollSum);
         btnRoll.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,15 +147,14 @@ public class AddRoll extends android.support.v4.app.Fragment {
                     }else{
                         int qt= Integer.valueOf(edtQt.getText().toString());
                         if(qt>0){
-                            if(!firstTime){
-                                String aux = "Dice: "+ String.valueOf(pastQT)+"     Total: "+lblTotalSum.getText();
-                                pastRolls.add(aux);
-                                listAdapterCustom.notifyDataSetChanged();
-                            }
                             pastQT=qt;
                             dr.roll(qt);
                             lblTotalSum.setText(String.valueOf(dr.getTotal()));
-                            firstTime = false;
+                            String aux = "Dice: "+ String.valueOf(pastQT)+"     Total: "+lblTotalSum.getText();
+                            pastRolls.add(aux);
+                            pastRollsIndividual.add(dr.getRolls());
+                            listAdapterCustom.notifyDataSetChanged();
+
                         }else{
                             throw new Exception("The value should be bigger than 0");
                         }
